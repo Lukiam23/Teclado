@@ -12,7 +12,7 @@ int main()
 {
 
     int i;
-    struct Nota e[36];
+    struct Nota e[50];
     strcpy(e[0].nome,"Do");
     e[0].frequencia=132;
     strcpy(e[1].nome,"Do#");
