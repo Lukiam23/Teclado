@@ -39,16 +39,12 @@ int main()
     e[11].frequencia=247;
     for(i=0; i<24; i++)
     {
-        if(i>24)
-        {
-            strcpy(e[i+24].nome,e[i].nome);
-            e[i+24].frequencia=e[i].frequencia*3;
-        }
+        strcpy(e[i+24].nome,e[i].nome);
+        e[i+24].frequencia=e[i].frequencia*3;
         strcpy(e[i+12].nome,e[i].nome);
         e[i+12].frequencia=e[i].frequencia*2;
     }
-
-    for(i=0; i<24; i++)
+    for(i=0; i<36; i++)
     {
         printf("A nota ");
         printf(e[i].nome);
@@ -56,4 +52,4 @@ int main()
         Beep(e[i].frequencia,100);
 
     }
-    }
+}
