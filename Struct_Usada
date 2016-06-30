@@ -8,29 +8,52 @@
         char nome[5];
         int frequencia;
     };
-    struct nome
-    {
-        char nome[5];
-    };
 int main()
 {
 
     int i;
-    struct Nota e[12];
-    struct nome nomes[12] = {"Do","Do#","Re","Re#","Mi","Fa","Fa#","Sol","Sol#","La","La#","Si"};
-
-    for(i=0; i<12; i++)
+    struct Nota e[36];
+    strcpy(e[0].nome,"Do");
+    e[0].frequencia=132;
+    strcpy(e[1].nome,"Do#");
+    e[1].frequencia=137;
+    strcpy(e[2].nome,"Re");
+    e[2].frequencia=148;
+    strcpy(e[3].nome,"Re#");
+    e[3].frequencia=154;
+    strcpy(e[4].nome,"Mi");
+    e[4].frequencia=165;
+    strcpy(e[5].nome,"Fa");
+    e[5].frequencia=175;
+    strcpy(e[6].nome,"Fa#");
+    e[6].frequencia=183;
+    strcpy(e[7].nome,"Sol");
+    e[7].frequencia=198;
+    strcpy(e[8].nome,"Sol#");
+    e[8].frequencia=206;
+    strcpy(e[9].nome,"La");
+    e[9].frequencia=220;
+    strcpy(e[10].nome,"La#");
+    e[10].frequencia=229;
+    strcpy(e[11].nome,"Si");
+    e[11].frequencia=247;
+    for(i=0; i<24; i++)
     {
-        strcpy(e[i].nome,nomes[i].nome);
-        int c = pow(2,i);
-        e[i].frequencia=264*pow(c,1.0/12.0);
+        if(i>24)
+        {
+            strcpy(e[i+24].nome,e[i].nome);
+            e[i+24].frequencia=e[i].frequencia*3;
+        }
+        strcpy(e[i+12].nome,e[i].nome);
+        e[i+12].frequencia=e[i].frequencia*2;
     }
-    for(i=0; i<12; i++)
+
+    for(i=0; i<24; i++)
     {
         printf("A nota ");
         printf(e[i].nome);
         printf(" tem uma frequencia de %d\n",e[i].frequencia);
-        Beep(e[i].frequencia,600);
+        Beep(e[i].frequencia,100);
 
     }
     }
