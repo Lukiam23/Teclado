@@ -5,7 +5,7 @@
 #include <math.h>
     struct Nota
     {
-        char nome[5];
+        char nome[7];
         int frequencia;
         int oitava;
     };
@@ -21,7 +21,7 @@ int main()
     e[0].oitava=1;
     e[0].frequencia=132;
     
-    strcpy(e[1].nome,"Do#");
+    strcpy(e[1].nome,"Do#/Reb");
     e[1].oitava=1;
     e[1].frequencia=137;
     
@@ -29,7 +29,7 @@ int main()
     e[2].oitava=1;
     e[2].frequencia=148;
     
-    strcpy(e[3].nome,"Re#");
+    strcpy(e[3].nome,"Re#/Mib");
     e[3].oitava=1;
     e[3].frequencia=154;
     
@@ -41,7 +41,7 @@ int main()
     e[5].oitava=1;
     e[5].frequencia=175;
     
-    strcpy(e[6].nome,"Fa#");
+    strcpy(e[6].nome,"Fa#/Solb");
     e[6].oitava=1;
     e[6].frequencia=183;
     
@@ -49,7 +49,7 @@ int main()
     e[7].oitava=1;
     e[7].frequencia=198;
     
-    strcpy(e[8].nome,"Sol#");
+    strcpy(e[8].nome,"Sol#/Lab");
     e[8].oitava=1;
     e[8].frequencia=206;
     
@@ -57,7 +57,7 @@ int main()
     e[9].oitava=1;
     e[9].frequencia=220;
     
-    strcpy(e[10].nome,"La#");
+    strcpy(e[10].nome,"La#/Sib");
     e[10].oitava=1;
     e[10].frequencia=229;
     
