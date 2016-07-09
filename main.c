@@ -9,26 +9,16 @@
         int frequencia;
         int oitava;
     };
-	
-void tocarNota(int oitavas,struct Nota e[48]){
-	int contador = 0;
-	int i;
-	
-	while(contador < oitavas){
-		
-		for(i=0; i<12; i++)
-		{
-			double frequencia = e[i].frequencia*pow(2,contador);
-			printf("A nota ");
-			printf(e[i].nome);
-			printf("%d tem uma frequencia de %0.2f\n", contador+1, frequencia);
-			Beep(frequencia,300);
+    
+int notaPos(char* nome, struct Nota e[48]){
+		int i;
+		for(i=0; i<12; i++)	{
 			
+			if(strcmp(e[i].nome, nome) == 0){
+				return i;
+			}			
 
 		}
-		
-		contador++;
-	}
 	
 }
     
@@ -86,6 +76,20 @@ int main()
     strcpy(e[11].nome,"Si");
     e[11].oitava=1;
     e[11].frequencia=247;
+
+	FILE *fp, *fopen();
 	
-	tocarNota(5,e);
+	fp = fopen("ode.txt","r");
+	
+	char nomeNota[7];
+	int oitava;
+	int tempoN;
+	int t = 500;
+	
+	while( ( fscanf(fp, "%s %d %d\n", nomeNota, &oitava, &tempoN) ) != EOF ){
+		printf("%s %d %d\n", nomeNota, oitava, tempoN);
+		int pos = notaPos(nomeNota, e);
+		Beep(e[pos].frequencia*pow(2,oitava),t*tempoN);
+	}
+
 }
