@@ -3,16 +3,16 @@
 #include <string.h>
 #include <windows.h>
 #include <math.h>
-    struct Nota
+    struct Nota /*O registro quardará informações das notas como o nome, a frequencia e a oita a qual ela pertence*/
     {
         char nome[7];
         int frequencia;
         int oitava;
     };
     
-int notaPos(char* nome, struct Nota e[48]){
+int notaPos(char* nome, struct Nota e[48]){ /*A funçõa recebe o nome,a oitava e um vetor de Notas e retorna a posição da nota no vetor*/
 		int i;
-		for(i=0; i<12; i++)	{
+		for(i=0; i<12; i++)	{ /*A função vai pecorrer a primeira oitava e verificar se os nomes são iguais, se forem ele retorna a posição da nota no vetor*/
 			
 			if(strcmp(e[i].nome, nome) == 0){
 				return i;
@@ -86,10 +86,10 @@ int main()
 	int tempoN;
 	int t = 500;
 	
-	while( ( fscanf(fp, "%s %d %d\n", nomeNota, &oitava, &tempoN) ) != EOF ){
+	while( ( fscanf(fp, "%s %d %d\n", nomeNota, &oitava, &tempoN) ) != EOF ){/*Quando o programa ler o aruivo ele vai procurar pelo o nome da nota, a oitava e o tempo*/
 		printf("%s %d %d\n", nomeNota, oitava, tempoN);
-		int pos = notaPos(nomeNota, e);
-		Beep(e[pos].frequencia*pow(2,oitava),t*tempoN);
+		int pos = notaPos(nomeNota, e);/*Aqui ele passa para pos a  posição da nota, mas essa posição é apenas da primeira oitava*/
+		Beep(e[pos].frequencia*pow(2,oitava),t*tempoN);/*ele passa para o Beep a frequencia e o tempo, ele pega a frequencia da nota na primera e transpõe pelo valor da oitava recebida*/
 	}
 
 }
