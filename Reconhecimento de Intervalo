@@ -54,6 +54,20 @@ void addNotas(char *nome, int oitava, int frequencia, struct Nota *vetor, int po
     vetor[pos].oitava=oitava;
     vetor[pos].frequencia=frequencia;
 }
+
+void play(struct Nota *vetor, int n, int t)
+{
+	int i,c;
+	for(i=0; i<n; i++)
+	{
+		for(c=0; c<12; c++)
+		{
+			int frequencia = vetor[c].frequencia*pow(2,i);
+			printf("%s%d\n",vetor[c].nome,i+1);
+			Beep(frequencia,t);
+		}
+	}
+};
     
 int main()
 {
@@ -99,7 +113,7 @@ int main()
 	
 	while(1)
 	{
-		printf("Faca a sua escolha:\n1.Tocar Ode a alegria\n2.Advinhar intervalo\n");
+		printf("Faca a sua escolha:\n1.Tocar Ode a alegria\n2.Advinhar intervalo\n3.Tocar escala cromatica\n");
 		printf("Digite a sua escolha: ");
 		scanf("%d",&escolha);	
 		
@@ -113,6 +127,7 @@ int main()
 			}
 			escolha=0;
 		}
+
 		if(escolha==2)
 		{
 			char nome[10], input[10];
@@ -135,9 +150,16 @@ int main()
 					Beep(e[posicao_aleatoria].frequencia*pow(2,2),t*3);
 				}
 			}
+			Beep(e[9].frequencia*pow(2,2),t/2);
+			Beep(e[10].frequencia*pow(2,2),t/2);
 			printf("\nIsso foi uma %s\n", nome);
 			printf("A primeira nota tocada foi um Do4 e a segunda nota tocada foi: %s %d\n",e[posicao_aleatoria].nome,e[posicao_aleatoria].oitava*2);
 			escolha=0;
+		}
+		
+		if(escolha==3)
+		{
+			play(e,4,t);
 		}
 	}
 	
