@@ -20,6 +20,14 @@ void addinter(char *str,struct intervalo *vetor,float valor,int pos)
 	strcpy(vetor[pos].nome,str);
 	vetor[pos].tom=valor;
 };
+void printarvetor(struct intervalo *vetor)
+{
+	int count;
+	for(count=0; count<7; count++)
+	{
+		printf("%s\n",vetor[count].nome);
+	}
+}
 int notaPos(char* nome, struct Nota e[48]){ /*A funÃ§Ãµa recebe o nome,a oitava e um vetor de Notas e retorna a posiÃ§Ã£o da nota no vetor*/
 		int i;
 		for(i=0; i<12; i++)	{ /*A funÃ§Ã£o vai pecorrer a primeira oitava e verificar se os nomes sÃ£o iguais, se forem ele retorna a posiÃ§Ã£o da nota no vetor*/
@@ -101,13 +109,13 @@ int main()
 	escolha=0;
 	
 	struct intervalo intervalos[10];
-	addinter("2M",intervalos,1.0,0);
-	addinter("2m",intervalos,0.5,1);
-	addinter("3M",intervalos,2.0,2);
-	addinter("3m",intervalos,1.5,3);
+	addinter("2M",intervalos,1.0,1);
+	addinter("2m",intervalos,0.5,0);
+	addinter("3M",intervalos,2.0,3);
+	addinter("3m",intervalos,1.5,2);
 	addinter("4J",intervalos,2.5,4);
-	addinter("5J",intervalos,3.5,5);
-	addinter("4Aum",intervalos,3.0,6);
+	addinter("5J",intervalos,3.5,6);
+	addinter("4Aum",intervalos,3.0,5);
 	
 	while(1)
 	{
@@ -127,7 +135,7 @@ int main()
 		}
 		if(escolha==2)
 		{
-			char nome[10];
+			char nome[10], input[10];
 			posicao_aleatoria = rand()%7;/*Gerará um número aleatório*/
 			semitons = posicao_aleatoria/2.0;
 			i=0;
@@ -138,9 +146,15 @@ int main()
 			strcpy(nome,intervalos[i].nome);
 			Beep(e[0].frequencia*pow(2,2),t*3);/*Tocará o Dó com frequencia igual a 264, pois o de 132 ´2 muito baixo*/
 			Beep(e[posicao_aleatoria].frequencia*pow(2,2),t*3);/*Pegará a nota na primeira oitava e a transporá para a próxima oitava */
+			printf("As opcoes sao:\n");
+			printarvetor(intervalos);/*Printará todas as opções de intervalos*/
+			while(strcmp (input, nome) != 0)/*Enquanto o intervalo digitado não for igual ao do programa ele permanecerá em loop*/
+			{
+				printf("Digite o seu palpite: ");
+				scanf("%s",&input);
+			}
 			printf("\nIsso foi uma %s\n", nome);
-			printf("\nA posicao aleaoria foi: %f\n",semitons);
-			printf("A segunda nota tocada foi: %s %d\n",e[posicao_aleatoria].nome,e[posicao_aleatoria].oitava*2);
+			printf("A primeira nota tocada foi um Do4 e a segunda nota tocada foi: %s %d\n",e[posicao_aleatoria].nome,e[posicao_aleatoria].oitava*2);
 			escolha=0;
 		}
 	}
