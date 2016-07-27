@@ -4,21 +4,30 @@
 #include <time.h>
 #include <windows.h>
 #include <math.h>
-    struct Nota /*O registro quardarÃ¡ informaÃ§Ãµes das notas como o nome, a frequencia e a oita a qual ela pertence*/
-    {
-        char nome[7];
-        int frequencia;
-        int oitava;
-    };
-    struct intervalo
-    {
-    	char nome[10];
-    	float tom;
-	};
+struct Nota /*O registro quardarÃ¡ informaÃ§Ãµes das notas como o nome, a frequencia e a oita a qual ela pertence*/
+{
+    char nome[7];
+    int frequencia;
+    int oitava;
+};
+struct intervalo
+{
+    char nome[10];
+    float tom;
+};
 void addinter(char *str,struct intervalo *vetor,float valor,int pos)
 {
 	strcpy(vetor[pos].nome,str);
 	vetor[pos].tom=valor;
+};
+int search(struct intervalo *vetor, float value)
+{
+	int i = 0;
+	while(vetor[i].tom!=value)
+	{
+		i++;
+	}
+	return i;
 };
 void printarvetor(struct intervalo *vetor)
 {
@@ -109,11 +118,8 @@ int main()
 			char nome[10], input[10];
 			posicao_aleatoria = rand()%7;/*Gerará um número aleatório*/
 			semitons = posicao_aleatoria/2.0;
-			i=0;
-			while(intervalos[i].tom!=semitons)
-			{
-				i++;
-			}
+			i= search(intervalos, semitons);
+			
 			strcpy(nome,intervalos[i].nome);
 			Beep(e[0].frequencia*pow(2,2),t*3);/*Tocará o Dó com frequencia igual a 264, pois o de 132 ´2 muito baixo*/
 			Beep(e[posicao_aleatoria].frequencia*pow(2,2),t*3);/*Pegará a nota na primeira oitava e a transporá para a próxima oitava */
