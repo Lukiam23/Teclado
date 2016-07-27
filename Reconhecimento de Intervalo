@@ -10,12 +10,16 @@
         int frequencia;
         int oitava;
     };
-    struct Intervalo
+    struct intervalo
     {
-    	char nome[20];
-    	float semitons;
+    	char nome[10];
+    	float tom;
 	};
-    
+void addinter(char *str,struct intervalo *vetor,float valor,int pos)
+{
+	strcpy(vetor[pos].nome,str);
+	vetor[pos].tom=valor;
+};
 int notaPos(char* nome, struct Nota e[48]){ /*A funÃ§Ãµa recebe o nome,a oitava e um vetor de Notas e retorna a posiÃ§Ã£o da nota no vetor*/
 		int i;
 		for(i=0; i<12; i++)	{ /*A funÃ§Ã£o vai pecorrer a primeira oitava e verificar se os nomes sÃ£o iguais, se forem ele retorna a posiÃ§Ã£o da nota no vetor*/
@@ -27,18 +31,12 @@ int notaPos(char* nome, struct Nota e[48]){ /*A funÃ§Ãµa recebe o nome,a oit
 		}
 	
 }
-void addinter(int pos,char *str, float semitons, struct Intervalo *vetor)
-{
-	strcpy(vetor[pos].nome,str);
-	vetor[pos].semitons = semitons;
-}
     
 int main()
 {
 
     int i;
     struct Nota e[48];
-    struct Intervalo intervalos[5];
     
     
     strcpy(e[0].nome,"Do");
@@ -96,11 +94,20 @@ int main()
 	char nomeNota[7];
 	int oitava;
 	int tempoN;
-	int posicao_aleatoria;
+	int posicao_aleatoria, intervalo;
 	int t = 500;
 	int escolha;
-	float semi;
+	float semitons;
 	escolha=0;
+	
+	struct intervalo intervalos[10];
+	addinter("2M",intervalos,1.0,0);
+	addinter("2m",intervalos,0.5,1);
+	addinter("3M",intervalos,2.0,2);
+	addinter("3m",intervalos,1.5,3);
+	addinter("4J",intervalos,2.5,4);
+	addinter("5J",intervalos,3.5,5);
+	addinter("4Aum",intervalos,3.0,6);
 	
 	while(1)
 	{
@@ -120,30 +127,22 @@ int main()
 		}
 		if(escolha==2)
 		{
-			char *inter; 
-			addinter(0,"2 Maior",1.0,intervalos);
-			addinter(1,"2 Menor",0.5,intervalos);
-			addinter(2,"3 Menor",1.5,intervalos);
-			addinter(3,"3 Maior",2.0,intervalos);
-			addinter(4,"4 Justa",2.5,intervalos);
-			addinter(5,"5 Justa",3.5,intervalos);
-			addinter(6,"4 Aumentada",3.0,intervalos);
+			char nome[10];
 			posicao_aleatoria = rand()%7;/*Gerará um número aleatório*/
-			semi = posicao_aleatoria/2.0;
-			i = 0;
-			while(intervalos[i].semitons!=semi)
+			semitons = posicao_aleatoria/2.0;
+			i=0;
+			while(intervalos[i].tom!=semitons)
 			{
 				i++;
 			}
-			inter=intervalos[i].nome;
-			
+			strcpy(nome,intervalos[i].nome);
 			Beep(e[0].frequencia*pow(2,2),t*3);/*Tocará o Dó com frequencia igual a 264, pois o de 132 ´2 muito baixo*/
 			Beep(e[posicao_aleatoria].frequencia*pow(2,2),t*3);/*Pegará a nota na primeira oitava e a transporá para a próxima oitava */
-			
-			printf("A posicao aleaoria foi: %d\nIsso foi uma %s\n",posicao_aleatoria,inter);
-			
+			printf("\nIsso foi uma %s\n", nome);
+			printf("\nA posicao aleaoria foi: %f\n",semitons);
 			printf("A segunda nota tocada foi: %s %d\n",e[posicao_aleatoria].nome,e[posicao_aleatoria].oitava*2);
 			escolha=0;
 		}
 	}
+	
 }
