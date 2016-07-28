@@ -15,6 +15,10 @@ struct intervalo
     char nome[10];
     float tom;
 };
+struct Nome
+{
+	char *nome;
+};
 void addinter(char *str,struct intervalo *vetor,float valor,int pos)
 {
 	strcpy(vetor[pos].nome,str);
@@ -68,7 +72,27 @@ void play(struct Nota *vetor, int n, int t)
 		}
 	}
 };
-    
+void playN(struct Nota *vetor, int oitavas, int t)
+{
+	int i,c,n;
+	struct Nome nomes[7] = {"Do","Re","Mi","Fa","Sol","La","Si"};
+	for(i=0; i<oitavas; i++)
+	{
+		for(c=0;c<12;c++)
+		{
+			for(n=0; n<7; n++)
+			{
+				if(strcmp(vetor[c].nome,nomes[n].nome)==0)
+				{
+					int frequencia = vetor[c].frequencia*pow(2,i);
+					printf("%s%d\n",vetor[c].nome,i+1);
+					Beep(frequencia,t);
+				}
+			}
+			
+		}
+	}
+};
 int main()
 {
 
@@ -113,7 +137,7 @@ int main()
 	
 	while(1)
 	{
-		printf("Faca a sua escolha:\n1.Tocar Ode a alegria\n2.Advinhar intervalo\n3.Tocar escala cromatica\n");
+		printf("\n\nFaca a sua escolha:\n1.Tocar Ode a alegria\n2.Advinhar intervalo\n3.Tocar escala cromatica\n4.Tocar a escala natural\n\n");
 		printf("Digite a sua escolha: ");
 		scanf("%d",&escolha);	
 		
@@ -160,6 +184,10 @@ int main()
 		if(escolha==3)
 		{
 			play(e,4,t);
+		}
+		if(escolha==4)
+		{
+			playN(e,4,t);
 		}
 	}
 	
