@@ -72,27 +72,21 @@ void play(struct Nota *vetor, int n, int t)
 		}
 	}
 };
-void playN(struct Nota *vetor, int oitavas, int t)
+void playN(struct Nota *vetor, int oitavas,int t)
 {
-	int i,c,n;
-	struct Nome nomes[7] = {"Do","Re","Mi","Fa","Sol","La","Si"};
-	for(i=0; i<oitavas; i++)/*Passo 1: Se escolhe o número de oitavas*/
+	int i,c, pos;
+	struct Nome notas[7] = {"Do","Re","Mi","Fa","Sol","La","Si"};
+	for(i=0; i<oitavas; i++)
 	{
-		for(c=0;c<12;c++)/*Passo 2: Percorre o vetor de notas primárias*/
+		for(c=0; c<7; c++)
 		{
-			for(n=0; n<7; n++)/*Passo 3: Percorre o vetor de nomes de notas, já que só queremos as naturais*/
-			{
-				if(strcmp(vetor[c].nome,nomes[n].nome)==0)/* Se a nota */
-				{
-					int frequencia = vetor[c].frequencia*pow(2,i);
-					printf("%s%d\n",vetor[c].nome,i+1);
-					Beep(frequencia,t);
-				}
-			}
-			
+			pos = notaPos(notas[c].nome,vetor);
+			printf("%s%d %d\n",vetor[pos].nome,i+1,vetor[pos].frequencia);
+			Beep(vetor[pos].frequencia*pow(2,i),t);
 		}
+		
 	}
-};
+}
 int main()
 {
 
