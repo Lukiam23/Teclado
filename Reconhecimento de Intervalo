@@ -19,6 +19,7 @@ struct Nome
 {
 	char *nome;
 };
+
 void addinter(char *str,struct intervalo *vetor,float valor,int pos)
 {
 	strcpy(vetor[pos].nome,str);
@@ -40,7 +41,7 @@ void printarvetor(struct intervalo *vetor)
 	{
 		printf("%s\n",vetor[count].nome);
 	}
-}
+};
 int notaPos(char* nome, struct Nota e[48]){ /*A funÃ§Ãµa recebe o nome,a oitava e um vetor de Notas e retorna a posiÃ§Ã£o da nota no vetor*/
 		int i;
 		for(i=0; i<12; i++)	{ /*A funÃ§Ã£o vai pecorrer a primeira oitava e verificar se os nomes sÃ£o iguais, se forem ele retorna a posiÃ§Ã£o da nota no vetor*/
@@ -87,6 +88,35 @@ void playN(struct Nota *vetor, int oitavas,int t)
 		
 	}
 }
+void playI(struct Nota *vetor, struct intervalo *intervalos, int t)
+{
+	int posicao_aleatoria, pos;
+	float semitons;
+	char nome[10], input[10];
+	posicao_aleatoria = rand()%7;/*Gerará um número aleatório*/
+	semitons = posicao_aleatoria/2.0;/*Mostrará quantos semitons a nota subiu*/
+	pos = search(intervalos, semitons);/*vai procurar no vetor de intervalos qual intervalo é compativel com o número de semitons*/
+			
+	strcpy(nome,intervalos[pos].nome);/*Vai passar para variavel nome o nome do intervalo (2m, 2M etc)*/
+	Beep(vetor[0].frequencia*pow(2,2),t*3);/*Tocará o Dó com frequencia igual a 264, pois o de 132 ´2 muito baixo*/
+	Beep(vetor[posicao_aleatoria].frequencia*pow(2,2),t*3);/*Pegará a nota na primeira oitava e a transporá para a próxima oitava */
+	printf("As opcoes sao:\n");
+	printarvetor(intervalos);/*Mostrará ao usuário as opções que tem*/
+	while(strcmp (input, nome) != 0)/*Enquanto a entrada do usuário não for igual à variável nome ele ficará no loop*/
+	{
+		printf("Digite o seu palpite: ");
+		scanf("%s",&input);
+		if(strcmp(input,"replay")==0)/*Fará com que as notas sejam tocadas novamente*/
+		{
+			Beep(vetor[0].frequencia*pow(2,2),t*3);
+			Beep(vetor[posicao_aleatoria].frequencia*pow(2,2),t*3);
+		}
+	}
+	Beep(vetor[9].frequencia*pow(2,2),t/2);/*Efeito besta de vitória*/
+	Beep(vetor[12].frequencia*pow(2,2),t/2);/*Efeito besta de vitória*/
+	printf("\nIsso foi uma %s\n", nome);
+	printf("A primeira nota tocada foi um Do4 e a segunda nota tocada foi %s %d\n",vetor[posicao_aleatoria].nome,vetor[posicao_aleatoria].oitava*2);
+};
 int main()
 {
 
@@ -105,7 +135,6 @@ int main()
     addNotas("La",1,220,e,9);
     addNotas("La#/Sib",1,229,e,10);
     addNotas("Si",1,247,e,11);
-
 
 	FILE *fp;
 	
@@ -148,31 +177,7 @@ int main()
 
 		if(escolha==2)
 		{
-			char nome[10], input[10];
-			posicao_aleatoria = rand()%7;/*Gerará um número aleatório*/
-			semitons = posicao_aleatoria/2.0;
-			i= search(intervalos, semitons);
-			
-			strcpy(nome,intervalos[i].nome);
-			Beep(e[0].frequencia*pow(2,2),t*3);/*Tocará o Dó com frequencia igual a 264, pois o de 132 ´2 muito baixo*/
-			Beep(e[posicao_aleatoria].frequencia*pow(2,2),t*3);/*Pegará a nota na primeira oitava e a transporá para a próxima oitava */
-			printf("As opcoes sao:\n");
-			printarvetor(intervalos);
-			while(strcmp (input, nome) != 0)
-			{
-				printf("Digite o seu palpite: ");
-				scanf("%s",&input);
-				if(strcmp(input,"replay")==0)/*Fará com que as notas sejam tocadas novamente*/
-				{
-					Beep(e[0].frequencia*pow(2,2),t*3);
-					Beep(e[posicao_aleatoria].frequencia*pow(2,2),t*3);
-				}
-			}
-			Beep(e[9].frequencia*pow(2,2),t/2);
-			Beep(e[10].frequencia*pow(2,2),t/2);
-			printf("\nIsso foi uma %s\n", nome);
-			printf("A primeira nota tocada foi um Do4 e a segunda nota tocada foi: %s %d\n",e[posicao_aleatoria].nome,e[posicao_aleatoria].oitava*2);
-			escolha=0;
+			playI(e,intervalos,t);
 		}
 		
 		if(escolha==3)
