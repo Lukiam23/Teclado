@@ -4,7 +4,7 @@
 #include <time.h>
 #include <windows.h>
 #include <math.h>
-struct Nota /*O registro quardarÃ¡ informaÃ§Ãµes das notas como o nome, a frequencia e a oita a qual ela pertence*/
+struct Nota /*O registro quardarÃƒÂ¡ informaÃƒÂ§ÃƒÂµes das notas como o nome, a frequencia e a oita a qual ela pertence*/
 {
     char nome[7];
     int frequencia;
@@ -19,7 +19,7 @@ struct Nome
 {
 	char *nome;
 };
-int elevar(struct Nota elemento,int oitava)/*Essa função transporá uma frequência para uma outra oitava ex: Lá 220 => Lá 440*/
+int elevar(struct Nota elemento,int oitava)/*Essa funÃ§Ã£o transporÃ¡ uma frequÃªncia para uma outra oitava ex: LÃ¡ 220 => LÃ¡ 440*/
 {
 	 int resultado = elemento.frequencia*pow(2,oitava);
 	 return resultado;
@@ -46,9 +46,9 @@ void printarvetor(struct intervalo *vetor)
 		printf("%s\n",vetor[count].nome);
 	}
 };
-int notaPos(char* nome, struct Nota *e){ /*A funÃ§Ãµa recebe o nome,a oitava e um vetor de Notas e retorna a posiÃ§Ã£o da nota no vetor*/
+int notaPos(char* nome, struct Nota *e){ /*A funÃƒÂ§ÃƒÂµa recebe o nome,a oitava e um vetor de Notas e retorna a posiÃƒÂ§ÃƒÂ£o da nota no vetor*/
 		int i;
-		for(i=0; i<12; i++)	{ /*A funÃ§Ã£o vai pecorrer a primeira oitava e verificar se os nomes sÃ£o iguais, se forem ele retorna a posiÃ§Ã£o da nota no vetor*/
+		for(i=0; i<12; i++)	{ /*A funÃƒÂ§ÃƒÂ£o vai pecorrer a primeira oitava e verificar se os nomes sÃƒÂ£o iguais, se forem ele retorna a posiÃƒÂ§ÃƒÂ£o da nota no vetor*/
 			
 			if(strcmp(e[i].nome, nome) == 0){
 				return i;
@@ -81,13 +81,25 @@ void playN(struct Nota *vetor, int oitavas,int t)
 {
 	int i,c, pos;
 	struct Nome notas[7] = {"Do","Re","Mi","Fa","Sol","La","Si"};
-	for(i=0; i<oitavas; i++)
+	for(i=0; i<=oitavas; i++)
 	{
 		for(c=0; c<7; c++)
 		{
-			pos = notaPos(notas[c].nome,vetor);
-			printf("%s%d %d\n",vetor[pos].nome,i+1,elevar(vetor[pos],i));
-			Beep(vetor[pos].frequencia*pow(2,i),t);
+			if(i<oitavas)
+			{
+				pos = notaPos(notas[c].nome,vetor);
+				printf("%s%d %d\n",vetor[pos].nome,i+1,elevar(vetor[pos],i));
+				Beep(vetor[pos].frequencia*pow(2,i),t);
+			}
+			if(i==oitavas)
+			{
+				if(strcmp(notas[c].nome,"Do")==0)
+				{
+					pos = notaPos(notas[c].nome,vetor);
+					printf("%s%d %d\n",vetor[pos].nome,i+1,elevar(vetor[pos],i));
+					Beep(vetor[pos].frequencia*pow(2,i),t);
+				}
+			}
 		}
 		
 	}
@@ -97,27 +109,27 @@ void playI(struct Nota *vetor, struct intervalo *intervalos, int t)
 	int posicao_aleatoria, pos;
 	float semitons;
 	char nome[10], input[10];
-	posicao_aleatoria = rand()%7;/*Gerará um número aleatório*/
-	semitons = posicao_aleatoria/2.0;/*Mostrará quantos semitons a nota subiu*/
-	pos = search(intervalos, semitons);/*vai procurar no vetor de intervalos qual intervalo é compativel com o número de semitons*/
+	posicao_aleatoria = rand()%7;/*GerarÃ¡ um nÃºmero aleatÃ³rio*/
+	semitons = posicao_aleatoria/2.0;/*MostrarÃ¡ quantos semitons a nota subiu*/
+	pos = search(intervalos, semitons);/*vai procurar no vetor de intervalos qual intervalo Ã© compativel com o nÃºmero de semitons*/
 			
 	strcpy(nome,intervalos[pos].nome);/*Vai passar para variavel nome o nome do intervalo (2m, 2M etc)*/
-	Beep(elevar(vetor[0],2),t*3);/*Tocará o Dó com frequencia igual a 264, pois o de 132 ´2 muito baixo*/
-	Beep(elevar(vetor[posicao_aleatoria],2),t*3);/*Pegará a nota na primeira oitava e a transporá para a próxima oitava */
+	Beep(elevar(vetor[0],2),t*3);/*TocarÃ¡ o DÃ³ com frequencia igual a 264, pois o de 132 Â´2 muito baixo*/
+	Beep(elevar(vetor[posicao_aleatoria],2),t*3);/*PegarÃ¡ a nota na primeira oitava e a transporÃ¡ para a prÃ³xima oitava */
 	printf("As opcoes sao:\n");
-	printarvetor(intervalos);/*Mostrará ao usuário as opções que tem*/
-	while(strcmp (input, nome) != 0)/*Enquanto a entrada do usuário não for igual à variável nome ele ficará no loop*/
+	printarvetor(intervalos);/*MostrarÃ¡ ao usuÃ¡rio as opÃ§Ãµes que tem*/
+	while(strcmp (input, nome) != 0)/*Enquanto a entrada do usuÃ¡rio nÃ£o for igual Ã  variÃ¡vel nome ele ficarÃ¡ no loop*/
 	{
 		printf("Digite o seu palpite: ");
 		scanf("%s",&input);
-		if(strcmp(input,"replay")==0)/*Fará com que as notas sejam tocadas novamente*/
+		if(strcmp(input,"replay")==0)/*FarÃ¡ com que as notas sejam tocadas novamente*/
 		{
 			Beep(vetor[0].frequencia*pow(2,2),t*3);
 			Beep(vetor[posicao_aleatoria].frequencia*pow(2,2),t*3);
 		}
 	}
-	Beep(elevar(vetor[9],2),t/2);/*Efeito besta de vitória*/
-	Beep(elevar(vetor[10],2),t/2);/*Efeito besta de vitória*/
+	Beep(elevar(vetor[9],2),t/2);/*Efeito besta de vitÃ³ria*/
+	Beep(elevar(vetor[10],2),t/2);/*Efeito besta de vitÃ³ria*/
 	printf("\nIsso foi uma %s\n", nome);
 	printf("A primeira nota tocada foi um Do4 e a segunda nota tocada foi %s %d\n",vetor[posicao_aleatoria].nome,vetor[posicao_aleatoria].oitava*2);
 };
@@ -171,8 +183,8 @@ int main()
 			while( ( fscanf(fp, "%s %d %d\n", nomeNota, &oitava, &tempoN) ) != EOF )
 			{/*Quando o programa ler o aruivo ele vai procurar pelo o nome da nota, a oitava e o tempo*/
 				printf("%s %d %d\n", nomeNota, oitava, tempoN);
-				int pos = notaPos(nomeNota, e);/*Aqui ele passa para pos a  posiÃ§Ã£o da nota, mas essa posiÃ§Ã£o Ã© apenas da primeira oitava*/
-				Beep(elevar(e[pos],oitava),t*tempoN);/*ele passa para o Beep a frequencia e o tempo, ele pega a frequencia da nota na primera e transpÃµe pelo valor da oitava recebida*/	
+				int pos = notaPos(nomeNota, e);/*Aqui ele passa para pos a  posiÃƒÂ§ÃƒÂ£o da nota, mas essa posiÃƒÂ§ÃƒÂ£o ÃƒÂ© apenas da primeira oitava*/
+				Beep(elevar(e[pos],oitava),t*tempoN);/*ele passa para o Beep a frequencia e o tempo, ele pega a frequencia da nota na primera e transpÃƒÂµe pelo valor da oitava recebida*/	
 			}
 		}
 
