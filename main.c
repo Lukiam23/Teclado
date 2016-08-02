@@ -77,31 +77,52 @@ void play(struct Nota *vetor, int n, int t)
 		}
 	}
 };
-void playN(struct Nota *vetor, int oitavas,int t)
+void playN(struct Nota *vetor,int t)
 {
 	int i,c, pos;
 	struct Nome notas[7] = {"Do","Re","Mi","Fa","Sol","La","Si"};
-	for(i=0; i<=oitavas; i++)
+	for(i=0; i<=1; i++)/*Tocará de forma crescente EX: Do,Re,Mi...,Do*/
 	{
-		for(c=0; c<7; c++)
+		for(c=0; c<7; c++)/*Irá pecorrer o vetor com o nome das notas que queremos que sejam tocadas*/
 		{
-			if(i<oitavas)
+			if(i<1)/*Se o "i" for menor que 1 ele tocará a nota*/
 			{
 				pos = notaPos(notas[c].nome,vetor);
-				printf("%s%d %d\n",vetor[pos].nome,i+1,elevar(vetor[pos],i));
-				Beep(vetor[pos].frequencia*pow(2,i),t);
+				printf("%s%d %d\n",vetor[pos].nome,i+2,elevar(vetor[pos],i));
+				Beep(elevar(vetor[pos],i+2),t);
 			}
-			if(i==oitavas)
+			if(i==1)/*Se o i for igual a 1 somente o Do será tocado*/
 			{
 				if(strcmp(notas[c].nome,"Do")==0)
-				{
-					pos = notaPos(notas[c].nome,vetor);
-					printf("%s%d %d\n",vetor[pos].nome,i+1,elevar(vetor[pos],i));
-					Beep(vetor[pos].frequencia*pow(2,i),t);
-				}
+ 				{
+ 					pos = notaPos(notas[c].nome,vetor);
+ 					printf("%s%d %d\n",vetor[pos].nome,i+2,elevar(vetor[pos],i));
+ 					Beep(elevar(vetor[pos],i+2),t);
+ 				}
 			}
 		}
 		
+	}
+	for(i=1;i>=0;i--)/*Tocará de forma decrescente Ex: Do,Si,La,...,Do*/
+	{
+		for(c=6; c>=0; c--)/*Esse será o responsável por tocar as notas de forma descrescente*/
+		{
+			if(i<1)/*Enquanto do i for menor que 1 ele tocará as notas de morfa descrescente*/
+			{
+				pos = notaPos(notas[c].nome,vetor);/*REcebe a posição da nota que está no vetor de notas*/
+				printf("%s%d %d\n",vetor[pos].nome,i+2,elevar(vetor[pos],i));/*Printa o nome da nota, frequência e oitava*/
+				Beep(elevar(vetor[pos],i+2),t);/*Toca a nota, mas transposta, pois a primeira oitava é baixa*/
+			}
+			if(i==1)/*Se i for igual a 1 só o Do será tocado*/
+			{
+				if(strcmp(notas[c].nome,"Do")==0)
+ 				{
+ 					pos = notaPos(notas[c].nome,vetor);
+ 					printf("%s%d %d\n",vetor[pos].nome,i+2,elevar(vetor[pos],i));
+ 					Beep(elevar(vetor[pos],i+2),t);
+ 				}
+			}
+		}
 	}
 }
 void playI(struct Nota *vetor, struct intervalo *intervalos, int t)
@@ -198,7 +219,7 @@ int main()
 			play(e,4,t);
 		}else if(strcmp(escolha, "4") == 0)
 		{
-			playN(e,4,t);
+			playN(e,t);
 		}else if(strcmp(escolha, "5") == 0)
 		{
 			int pos = notaPos("La",e);
