@@ -64,15 +64,36 @@ void addNotas(char *nome, int oitava, int frequencia, struct Nota *vetor, int po
 	vetor[pos].frequencia=frequencia;
 }
 
-void play(struct Nota *vetor, int n, int t)
+void play(struct Nota *vetor, int t)
 {
 	int i,c;
-	for(i=0; i<n; i++)
+	for(c=0; c<=12; c++)/*Tocará de forma crescente a escala cromática*/
 	{
-		for(c=0; c<12; c++)
+		if(c<12)
 		{
-			int frequencia = elevar(vetor[c],i);
-			printf("%s%d\n",vetor[c].nome,i+1);
+			int frequencia = elevar(vetor[c],2);
+			printf("%s%d\n",vetor[c].nome,1);
+			Beep(frequencia,t);
+		}
+		if(c==12)
+		{
+			int frequencia = elevar(vetor[0],3);
+			printf("%s%d\n",vetor[0].nome,1);
+			Beep(frequencia,t);
+		}
+	}
+	for(c=12; c>=0; c--)/*Tocará de forma descrescente a escala cromática*/
+	{
+		if(c<12)
+		{
+			int frequencia = elevar(vetor[c],2);
+			printf("%s%d\n",vetor[c].nome,1);
+			Beep(frequencia,t);
+		}
+		if(c==12)
+		{
+			int frequencia = elevar(vetor[0],3);
+			printf("%s%d\n",vetor[0].nome,1);
 			Beep(frequencia,t);
 		}
 	}
@@ -216,7 +237,7 @@ int main()
 			playI(e,intervalos,t);
 		}else if(strcmp(escolha, "3") == 0)
 		{
-			play(e,4,t);
+			play(e,t);
 		}else if(strcmp(escolha, "4") == 0)
 		{
 			playN(e,t);
